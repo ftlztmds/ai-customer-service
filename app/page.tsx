@@ -25,11 +25,12 @@ function SourceNote({ metadata }: { metadata?: MessageMetadata }) {
     );
   }
 
-  const label = metadata.sources
-    .map((source) => `${source.docTitle} · ${source.section}`)
-    .join("；");
+  // 只展示前两条：完整列表在悬停提示里，避免小字占三行抢视觉
+  const shown = metadata.sources.slice(0, 2);
+  const label = shown.map((source) => `${source.docTitle} · ${source.section}`).join("；");
+  const suffix = metadata.sources.length > shown.length ? ` 等 ${metadata.sources.length} 条` : "";
 
-  // 悬停可看到 chunk id 与分数，方便定位具体命中了哪一段
+  // 悬停可看到全部 chunk id 与分数，方便定位具体命中了哪一段
   const detail = metadata.sources
     .map((source) => `${source.id}（score ${source.score}）`)
     .join("\n");
@@ -37,6 +38,7 @@ function SourceNote({ metadata }: { metadata?: MessageMetadata }) {
   return (
     <p className="mt-1 px-1 text-[11px] leading-4 text-zinc-400" title={detail}>
       依据：{label}
+      {suffix}
     </p>
   );
 }

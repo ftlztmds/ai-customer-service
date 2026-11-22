@@ -27,7 +27,8 @@ function lastUserText(messages: ChatUIMessage[]): string {
  * 同时产出 metadata，供前端展示「依据」，便于定位是检索错还是生成错。
  */
 function buildPrompt(query: string): { system: string; metadata: MessageMetadata } {
-  const retrieval = searchKnowledge(query, 4);
+  // 不传 topK，使用检索层默认值（3 条），避免这里和默认值不同步
+  const retrieval = searchKnowledge(query);
 
   if (!retrieval.grounded) {
     console.log(`[knowledge] 未命中，转人工 | query="${query}" | top=${retrieval.topScore.toFixed(2)}`);
@@ -58,7 +59,8 @@ ${context}
 1. 只能依据上述参考资料作答，不得编造价格、时效、政策、库存。
 2. 参考资料未覆盖的信息，不要猜测，改为${REQUIRED_HANDOFF}。
 3. 不要提及「参考资料」「文档」「资料」等字眼，直接以客服口吻回答。
-4. 涉及具体型号时，型号字母与尺码必须与资料完全一致，不得改写。`,
+4. 涉及具体型号时，型号字母与尺码必须与资料完全一致，不得改写。
+5. 只回答用户本次问到的部分，不要把资料里其他条款一并罗列；回答控制在 5 句话以内。`,
     metadata: {
       grounded: true,
       sources: retrieval.hits.map((hit) => ({

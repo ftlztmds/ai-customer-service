@@ -34,7 +34,10 @@ export type Retrieval = {
   topCoverage: number;
 };
 
-export function searchKnowledge(query: string, topK = 4): Retrieval {
+/** 默认只取 3 条：客服回答不需要 4 段资料，多一条就多一分噪声与成本 */
+const DEFAULT_TOP_K = 3;
+
+export function searchKnowledge(query: string, topK = DEFAULT_TOP_K): Retrieval {
   const hits = search(query, topK);
   const topScore = hits[0]?.score ?? 0;
   const topCoverage = hits[0]?.coverage ?? 0;

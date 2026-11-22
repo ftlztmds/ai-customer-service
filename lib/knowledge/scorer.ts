@@ -97,8 +97,12 @@ export function contentTerms(text: string): string[] {
 
 function buildEntries(chunks: Chunk[]): Entry[] {
   return chunks.map((chunk) => {
-    // 标题与小节名一并入索引：用户常直接问章节名，如「退换货政策」
-    const terms = tokenize(`${chunk.docTitle} ${chunk.section} ${chunk.text}`);
+    // 标题与小节名做 2 倍加权：用户常直接问章节名（「退换货流程」「尺码怎么选」），
+    // 标题命中的信号比正文里顺带提一句更可靠
+    const titleTerms = tokenize(`${chunk.docTitle} ${chunk.section}`);
+    const bodyTerms = tokenize(chunk.text);
+    const terms = [...titleTerms, ...titleTerms, ...bodyTerms];
+
     const tf = new Map<string, number>();
     for (const term of terms) tf.set(term, (tf.get(term) ?? 0) + 1);
     return { chunk, tf, len: terms.length };
