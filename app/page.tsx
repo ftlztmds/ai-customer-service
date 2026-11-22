@@ -1,22 +1,48 @@
 "use client";
 
 import { useChat } from "@ai-sdk/react";
-import type { UIMessage } from "ai";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useRef, useState } from "react";
+import type { ChatUIMessage, MessageMetadata } from "@/lib/chat/types";
 
 const QUICK_QUESTIONS = ["怎么退换货？", "发什么快递？", "尺码怎么选？"] as const;
 
 const WELCOME =
   "您好，欢迎来到天乐时代旗舰店。我是店铺金牌客服，可以帮您查询尺码、退换货和物流。请问有什么可以帮您？";
 
-function messageText(message: UIMessage) {
+function messageText(message: ChatUIMessage) {
   return message.parts
     .map((part) => (part.type === "text" ? part.text : ""))
     .join("");
 }
 
+/** 回答依据：让「查了哪张卡片」可见，出错时能区分是检索错还是生成错 */
+function SourceNote({ metadata }: { metadata?: MessageMetadata }) {
+  if (!metadata) return null;
+
+  if (!metadata.grounded || metadata.sources.length === 0) {
+    return (
+      <p className="mt-1 px-1 text-[11px] leading-4 text-zinc-400">未命中知识库，已转人工</p>
+    );
+  }
+
+  const label = metadata.sources
+    .map((source) => `${source.docTitle} · ${source.section}`)
+    .join("；");
+
+  // 悬停可看到 chunk id 与分数，方便定位具体命中了哪一段
+  const detail = metadata.sources
+    .map((source) => `${source.id}（score ${source.score}）`)
+    .join("\n");
+
+  return (
+    <p className="mt-1 px-1 text-[11px] leading-4 text-zinc-400" title={detail}>
+      依据：{label}
+    </p>
+  );
+}
+
 export default function Home() {
-  const { messages, sendMessage, status, error } = useChat();
+  const { messages, sendMessage, status, error } = useChat<ChatUIMessage>();
   const [input, setInput] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   const busy = status === "submitted" || status === "streaming";
@@ -69,7 +95,14 @@ export default function Home() {
           {messages.map((message) => {
             const text = messageText(message);
             if (!text) return null;
-            return <Bubble key={message.id} role={message.role} text={text} />;
+            return (
+              <Bubble
+                key={message.id}
+                role={message.role}
+                text={text}
+                note={message.role === "assistant" ? <SourceNote metadata={message.metadata} /> : null}
+              />
+            );
           })}
 
           {showTyping ? (
@@ -141,23 +174,28 @@ function Avatar({ label }: { label: string }) {
 function Bubble({
   role,
   text,
+  note,
 }: {
-  role: UIMessage["role"] | "assistant";
+  role: "user" | "assistant" | "system";
   text: string;
+  note?: ReactNode;
 }) {
   const isUser = role === "user";
 
   return (
     <div className={`flex items-end gap-2 ${isUser ? "flex-row-reverse" : ""}`}>
       <Avatar label={isUser ? "我" : "客"} />
-      <div
-        className={`max-w-[78%] rounded-2xl px-3.5 py-2.5 text-sm leading-6 whitespace-pre-wrap shadow-sm ${
-          isUser
-            ? "rounded-br-sm bg-[#95ec69] text-zinc-900"
-            : "rounded-bl-sm bg-white text-zinc-800"
-        }`}
-      >
-        {text}
+      <div className="flex min-w-0 max-w-[78%] flex-col">
+        <div
+          className={`rounded-2xl px-3.5 py-2.5 text-sm leading-6 whitespace-pre-wrap shadow-sm ${
+            isUser
+              ? "rounded-br-sm bg-[#95ec69] text-zinc-900"
+              : "rounded-bl-sm bg-white text-zinc-800"
+          }`}
+        >
+          {text}
+        </div>
+        {note}
       </div>
     </div>
   );
