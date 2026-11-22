@@ -1,0 +1,22 @@
+{
+  "ranAt": "2026-11-22T15:26:19.170Z",
+  "model": null,
+  "indexBuiltAt": "2026-11-22T15:26:17.947Z",
+  "chunkCount": 26,
+  "thresholds": {
+    "MIN_SCORE": 2.5,
+    "MIN_COVERAGE": 0.33,
+    "TOP_K": 3
+  },
+  "retrieval": {
+    "total": 40,
+    "inScope": 32,
+    "outScope": 8,
+    "verdictAccuracy": 1,
+    "top1Accuracy": 1,
+    "hit3Recall": 1,
+    "rejectAccuracy": 1
+  },
+  "answer": null,
+  "failures": []
+}

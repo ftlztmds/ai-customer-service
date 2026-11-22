@@ -46,10 +46,14 @@ export const MIN_SCORE = 2.5;
 export const MIN_COVERAGE = 0.33;
 
 /**
- * 虚词/疑问词字表：含这些字的二元组不计入覆盖率。
- * 否则「怎么开发票」会被「怎么」「么开」拉低分母，把真命中误判成未命中。
+ * 虚词/疑问词字表：这些字只作为"切段符"，不参与覆盖率计算。
+ * 注意「会」不在其中——它在「会员」「优惠」里是实词的一部分，
+ * 当作疑问词会把「会员有什么优惠」误判成无资料。
  */
-const STOP_CHARS = new Set("的了吗呢啊吧呀么怎什我你您请问能会要想个是有和与这那就都也还把被给让对从".split(""));
+const STOP_CHARS = new Set("的了吗呢啊吧呀么怎什我你您请问能要想个是有和与这那就都也还把被给让对从".split(""));
+
+/** 预编译切段正则，避免每次调用重建 */
+const STOP_PATTERN = new RegExp(`[${[...STOP_CHARS].join("")}]`, "g");
 
 const ASCII_WORD = /[a-z0-9]+/g;
 const CJK_RUN = /[\u4e00-\u9fa5]+/g;
@@ -73,8 +77,10 @@ export function tokenize(text: string): string[] {
 }
 
 /**
- * 提取「实词」：中文二元组 + 至少 2 字符的英文/型号。
- * 单字（我、的、吗）不参与覆盖率计算，否则任何问句都能"蹭"到高分。
+ * 提取「实词」：英文/型号取整词，中文先按虚词切段、再在段内取二元组。
+ *
+ * 先切段再取二元组是关键：否则「会员有什么优惠」会产生「员有」「么优」这类
+ * 跨词碎片，既拉低覆盖率，又把真命中误杀成"无资料"。
  */
 export function contentTerms(text: string): string[] {
   const lower = text.toLowerCase();
@@ -83,16 +89,28 @@ export function contentTerms(text: string): string[] {
   for (const match of lower.matchAll(ASCII_WORD)) {
     if (match[0].length >= 2) terms.push(match[0]);
   }
+
   for (const match of lower.matchAll(CJK_RUN)) {
-    const run = match[0];
-    for (let i = 0; i + 1 < run.length; i++) {
-      const bigram = run.slice(i, i + 2);
-      if (STOP_CHARS.has(bigram[0]) || STOP_CHARS.has(bigram[1])) continue;
-      terms.push(bigram);
+    const segments = match[0].split(STOP_PATTERN);
+    for (const segment of segments) {
+      for (let i = 0; i + 1 < segment.length; i++) terms.push(segment.slice(i, i + 2));
     }
   }
 
   return [...new Set(terms)];
+}
+
+/**
+ * 只保留对问题有实词覆盖的片段。
+ *
+ * 覆盖率 0 的片段虽然靠单字也能蹭到分数，但它对回答没有贡献，
+ * 放进上下文只会增加噪声与成本（例如问「意大利能发货吗」却塞进「运费规则」）。
+ * 保留 top1 兜底，是为了让"全为 0"时仍能走下闸门判定并转人工。
+ */
+export function filterHits(hits: Hit[]): Hit[] {
+  if (hits.length === 0) return hits;
+  const kept = hits.filter((hit) => hit.coverage > 0);
+  return kept.length > 0 ? kept : hits.slice(0, 1);
 }
 
 function buildEntries(chunks: Chunk[]): Entry[] {

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-22",
+  "description": "客服知识库评测集。doc 为期望命中的文档 id（null 表示应转人工）；mustInclude 为回答必须出现的事实关键词（用于线上回答层评测）。",
+  "items": [
+    { "id": "q01", "question": "德国退货要付运费吗", "doc": "01-退换货政策", "mustInclude": ["4.99", "法兰克福"] },
+    { "id": "q02", "question": "七天无理由退货要满足什么条件", "doc": "01-退换货政策", "mustInclude": ["吊牌"] },
+    { "id": "q03", "question": "定制款狗窝能退吗", "doc": "01-退换货政策", "mustInclude": ["不支持"] },
+    { "id": "q04", "question": "日本退货收手续费吗", "doc": "01-退换货政策", "mustInclude": ["800"] },
+    { "id": "q05", "question": "质量问题退货运费谁出", "doc": "01-退换货政策", "mustInclude": ["承担"] },
+    { "id": "q06", "question": "退款多久能到账", "doc": "01-退换货政策", "mustInclude": ["工作日"] },
+    { "id": "q07", "question": "签收后多久内可以申请质量问题退货", "doc": "01-退换货政策", "mustInclude": ["30"] },
+    { "id": "q08", "question": "拆封的宠物零食能退吗", "doc": "01-退换货政策", "mustInclude": ["不支持"] },
+
+    { "id": "q09", "question": "发什么快递", "doc": "02-物流与配送", "mustInclude": ["顺丰"] },
+    { "id": "q10", "question": "美国订单多久能到", "doc": "02-物流与配送", "mustInclude": ["工作日"] },
+    { "id": "q11", "question": "德国订单要交关税吗", "doc": "02-物流与配送", "mustInclude": ["IOSS"] },
+    { "id": "q12", "question": "国内满多少包邮", "doc": "02-物流与配送", "mustInclude": ["99"] },
+    { "id": "q13", "question": "物流显示签收但我没收到怎么办", "doc": "02-物流与配送", "mustInclude": ["开查"] },
+    { "id": "q14", "question": "意大利能发货吗", "doc": "02-物流与配送", "mustInclude": ["美国"] },
+    { "id": "q15", "question": "预售商品什么时候发货", "doc": "02-物流与配送", "mustInclude": ["商品页"] },
+
+    { "id": "q16", "question": "S码狗窝适合多重的狗", "doc": "03-尺码与规格", "mustInclude": ["5"] },
+    { "id": "q17", "question": "L码胸背带胸围范围是多少", "doc": "03-尺码与规格", "mustInclude": ["58"] },
+    { "id": "q18", "question": "猫爬架承重上限多少", "doc": "03-尺码与规格", "mustInclude": ["15"] },
+    { "id": "q19", "question": "狗窝外套能机洗吗", "doc": "03-尺码与规格", "mustInclude": ["30"] },
+    { "id": "q20", "question": "XL码狗窝适合多大的狗", "doc": "03-尺码与规格", "mustInclude": ["30"] },
+    { "id": "q21", "question": "胸围怎么量", "doc": "03-尺码与规格", "mustInclude": ["前腿"] },
+
+    { "id": "q22", "question": "TL-DW-M 多少钱", "doc": "04-商品清单", "mustInclude": ["169"] },
+    { "id": "q23", "question": "五层猫爬架多少钱", "doc": "04-商品清单", "mustInclude": ["599"] },
+    { "id": "q24", "question": "TL-CT-5R 是配件吗", "doc": "04-商品清单", "mustInclude": ["磨爪柱"] },
+    { "id": "q25", "question": "尿垫能退吗", "doc": "04-商品清单", "mustInclude": ["不支持"] },
+    { "id": "q26", "question": "缺货了怎么才能买到", "doc": "04-商品清单", "mustInclude": ["到货提醒"] },
+
+    { "id": "q27", "question": "怎么开发票", "doc": "05-售后与增值服务", "mustInclude": ["电子"] },
+    { "id": "q28", "question": "能开增值税专用发票吗", "doc": "05-售后与增值服务", "mustInclude": ["不支持"] },
+    { "id": "q29", "question": "自动喂食器保修多久", "doc": "05-售后与增值服务", "mustInclude": ["6"] },
+    { "id": "q30", "question": "会员有什么优惠", "doc": "05-售后与增值服务", "mustInclude": ["95"] },
+    { "id": "q31", "question": "怎么联系售后主管", "doc": "05-售后与增值服务", "mustInclude": ["主管"] },
+
+    { "id": "q32", "question": "你们老板是谁", "doc": null, "mustHandoff": true },
+    { "id": "q33", "question": "支持支付宝吗", "doc": null, "mustHandoff": true },
+    { "id": "q34", "question": "今天天气怎么样", "doc": null, "mustHandoff": true },
+    { "id": "q35", "question": "帮我写一首关于猫的诗", "doc": null, "mustHandoff": true },
+    { "id": "q36", "question": "你们有实体店吗", "doc": null, "mustHandoff": true },
+    { "id": "q37", "question": "能便宜点吗", "doc": null, "mustHandoff": true },
+    { "id": "q38", "question": "帮我查一下订单 SF123456 的物流", "doc": "02-物流与配送", "mustInclude": ["订单"] },
+    { "id": "q39", "question": "你们和别家比有什么优势", "doc": null, "mustHandoff": true },
+    { "id": "q40", "question": "推荐一款适合新手养的狗", "doc": null, "mustHandoff": true }
+  ]
+}

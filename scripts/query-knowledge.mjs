@@ -7,10 +7,13 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-const { createSearcher, MIN_SCORE, MIN_COVERAGE } = await import("../lib/knowledge/scorer.ts");
+const { createSearcher, filterHits, MIN_SCORE, MIN_COVERAGE } = await import("../lib/knowledge/scorer.ts");
 
 const index = JSON.parse(readFileSync(join(root, "data", "knowledge", "index.json"), "utf8"));
 const search = createSearcher(index.chunks);
+
+// 与线上 retrieve.ts 同一条路径：打分后过滤掉实词覆盖为 0 的噪声片段
+const retrieve = (query) => filterHits(search(query, 4));
 
 const queries = process.argv.slice(2);
 if (queries.length === 0) {
@@ -22,7 +25,7 @@ console.log(
 );
 
 for (const query of queries) {
-  const hits = search(query, 4);
+  const hits = retrieve(query);
   const top = hits[0];
   const grounded = !!top && top.score >= MIN_SCORE && top.coverage >= MIN_COVERAGE;
   console.log(`问：${query}`);

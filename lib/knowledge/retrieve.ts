@@ -11,7 +11,7 @@
  */
 
 import indexJson from "../../data/knowledge/index.json";
-import { createSearcher, MIN_COVERAGE, MIN_SCORE, type Hit } from "./scorer";
+import { createSearcher, filterHits, MIN_COVERAGE, MIN_SCORE, type Hit } from "./scorer";
 
 export type { Hit };
 
@@ -38,7 +38,7 @@ export type Retrieval = {
 const DEFAULT_TOP_K = 3;
 
 export function searchKnowledge(query: string, topK = DEFAULT_TOP_K): Retrieval {
-  const hits = search(query, topK);
+  const hits = filterHits(search(query, topK));
   const topScore = hits[0]?.score ?? 0;
   const topCoverage = hits[0]?.coverage ?? 0;
 
