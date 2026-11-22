@@ -1,6 +1,6 @@
 {
-  "ranAt": "2026-11-22T15:26:19.170Z",
-  "model": null,
+  "ranAt": "2026-11-22T15:32:38.204Z",
+  "model": "deepseek-chat",
   "indexBuiltAt": "2026-11-22T15:26:17.947Z",
   "chunkCount": 26,
   "thresholds": {
@@ -17,6 +17,10 @@
     "hit3Recall": 1,
     "rejectAccuracy": 1
   },
-  "answer": null,
+  "answer": {
+    "factAccuracy": 1,
+    "handoffAccuracy": 1,
+    "hallucinationRate": 0
+  },
   "failures": []
 }
