@@ -88,8 +88,9 @@
 - **流式输出**：基于 token 的渐进渲染，首字延迟感知明显低于整段返回；等待期间展示三点打字动画，而非空屏。
 - **高频问题快捷入口**：退换货、物流、尺码三个按钮一键提问，降低用户输入成本。
 - **角色化 System Prompt**：固定为宠物用品跨境电商的金牌客服人设，覆盖尺码推荐、退换货政策、物流进度三类意图。
-- **知识库检索（RAG 第一版）**：5 篇店铺知识文档（退换货、物流、尺码、商品、售后）经结构化切分构建 26 条索引，回答前先检索，只把命中的片段喂给模型。
+- **知识库检索（双路）**：5 篇店铺知识文档切分为 26 条片段；中文 BM25（标题 / 短语加权）与 bge-m3 向量检索（余弦相似度）两路均已跑通，向量路可召回「退货要花钱吗」这类与原文零共同词的语义问句。
 - **幻觉闸门**：BM25 分数与实词覆盖率双阈值判定，未达标时切换为「转人工」约束，禁止模型凭记忆编造价格、时效与政策。
+- **多轮指代消解**：检索未命中且存在对话历史时，用一次轻量 LLM 调用把「那这个呢」改写为自包含问句后重试；命中路径零额外开销，成本只花在失败路径上。
 - **回答可溯源**：每条回复下方展示「依据：文档 · 小节」，悬停可见命中的 chunk id 与检索分数；未命中时显示「已转人工」。出现错误回答时，可以立刻分清是**检索错**还是**生成错**。
 - **未知问题兜底**：遇到具体订单号、物流单号这类模型无法确知的信息时，引导用户提供订单号或转接人工，而不是编造答案。
 - **异常降级**：请求失败时展示可重试提示，不破坏已有会话上下文。
@@ -144,7 +145,20 @@ npm install
 创建 `.env.local`（可使用仓库内的 `.env.example` 作为模板）：
 
 ```bash
+# 对话模型
 DEEPSEEK_API_KEY=your_deepseek_api_key_here
+
+# 向量化（DeepSeek 没有 embedding 接口，必须用另一家）
+EMBEDDING_API_KEY=your_siliconflow_api_key_here
+EMBEDDING_BASE_URL=https://api.siliconflow.cn/v1
+EMBEDDING_MODEL=BAAI/bge-m3
+```
+
+重建知识库与向量索引（改过 `data/knowledge/*.md` 后执行）：
+
+```bash
+node scripts/build-knowledge.mjs
+node scripts/build-embeddings.mjs
 ```
 
 从 [DeepSeek 开放平台](https://platform.deepseek.com/) 获取 Key 后启动：
@@ -170,18 +184,22 @@ app/
 lib/knowledge/
 ├── chunk.ts             # Markdown → chunk 切分
 ├── scorer.ts            # BM25 打分与覆盖率计算（纯函数，可被脚本复用）
+├── embed.ts             # 向量化：调 embedding 接口 + 余弦相似度
 └── retrieve.ts          # 索引加载与双闸门判定
 lib/chat/
 ├── types.ts             # 前后端共用的消息元数据类型
 └── prompt.ts            # 提示词装配（线上与评测共用，避免两套逻辑漂移）
 data/knowledge/
 ├── *.md                 # 知识库原文：退换货 / 物流 / 尺码 / 商品 / 售后
-└── index.json           # 构建产物，随仓库提交，避免运行时切分
+├── index.json           # 切分产物，随仓库提交，避免运行时切分
+└── embeddings.json      # 向量产物（bge-m3 / 1024 维），随仓库提交
 data/eval/
 ├── questions.json       # 40 条评测样本
 └── latest-report.json   # 最近一次评测结果
 scripts/
 ├── build-knowledge.mjs  # 重建知识库索引
+├── build-embeddings.mjs # 批量向量化
+├── test-vector.mjs      # 语义检索冒烟测试（先不接数据库）
 ├── query-knowledge.mjs  # 检索调试与阈值回归
 ├── eval.mjs             # 40 条评测集回归（--live 跑回答层）
 └── measure-latency.mjs  # 首 token 延迟基准
@@ -213,7 +231,8 @@ public/                  # 静态资源
 
 **下一步**
 
-- 向量检索：DeepSeek 无 embedding 接口，需接入第二家供应商（如 bge-m3 / text-embedding-v3），与 BM25 做混合检索 + rerank
+- 混合检索：两路打分已跑通，下一步做加权融合（`α·BM25 + (1−α)·cosine`）与 rerank，并用 40 条评测集量化提升幅度
+- 向量库：当前向量存 JSON + 内存暴力检索（26 条规模够用），数据量上去后迁移 pgvector / Qdrant
 - 依据可点击：点击「退换货政策 · 各市场退货差异」直接展开该段原文
 - 知识库管理后台：PDF / Excel 导入、增量更新与版本化，改政策不用改代码
 
