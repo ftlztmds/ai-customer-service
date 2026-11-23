@@ -15,7 +15,7 @@ export const PERSONA = `你是一名专业、热情、有耐心的宠物跨境�
 /** 检索未命中时的约束：不知道就说不知道，不许编 */
 export const REQUIRED_HANDOFF = "礼貌地请用户提供订单号，或说明将为用户转接人工客服";
 
-export function buildSystemPrompt(query: string, retrieval: Retrieval): string {
+export function buildSystemPrompt( retrieval: Retrieval): string {
   if (!retrieval.grounded) {
     return `${PERSONA}
 

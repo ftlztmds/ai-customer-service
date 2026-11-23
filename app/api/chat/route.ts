@@ -106,7 +106,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: deepSeek("deepseek-chat"),
-    system: buildSystemPrompt(retrieval.query, retrieval),
+    system: buildSystemPrompt(retrieval),
     messages: await convertToModelMessages(messages),
     providerOptions: {
       deepseek: {
