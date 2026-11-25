@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "source": "自有 TikTok Shop 越南站真实买家咨询（30 条），用于意图分类评测",
+  "intents": {
+    "engraving": "定制刻字相关：要刻什么、怎么刻、刻完怎么下单、提供名字/电话",
+    "delivery": "物流异常：未收到货、送错地址、快递员送错",
+    "stock": "库存与现货：这个还有吗、有现货吗",
+    "thanks": "感谢与好评：cảm ơn、đẹp、感谢支持",
+    "other": "其他：打招呼、找入口、问颜色、无明确诉求"
+  },
+  "items": [
+    { "id": "t01", "text": "Bạn nhớ khắc thông tin giúp m nhé", "intent": "engraving" },
+    { "id": "t02", "text": "Khắc tên đầy đủ trên dây rồi fai ko ạ", "intent": "engraving" },
+    { "id": "t03", "text": "Em muốn mùa màu này", "intent": "other" },
+    { "id": "t04", "text": "Khắc tên sữa", "intent": "engraving" },
+    { "id": "t05", "text": "sp này còn k ạ", "intent": "stock" },
+    { "id": "t06", "text": "Tôi vẫn chưa nhận được đơn hàng của mình.", "intent": "delivery" },
+    { "id": "t07", "text": "Lộn nhà rồi ạ", "intent": "delivery" },
+    { "id": "t08", "text": "Mình đặc đúng địa chỉ rồi mà", "intent": "delivery" },
+    { "id": "t09", "text": "Do shiper giao nhầm ai rồi ạ", "intent": "delivery" },
+    { "id": "t10", "text": "Khắc cho mình tên Nâu nhé", "intent": "engraving" },
+    { "id": "t11", "text": "Cảm on nhé", "intent": "thanks" },
+    { "id": "t12", "text": "Cảm ơn shop", "intent": "thanks" },
+    { "id": "t13", "text": "Shop ơi e muốn khắc tên meo lên thì có đc k ạ", "intent": "engraving" },
+    { "id": "t14", "text": "Khắc chữ Mi", "intent": "engraving" },
+    { "id": "t15", "text": "dạ cảm ơn shop", "intent": "thanks" },
+    { "id": "t16", "text": "Quá trời đẹp", "intent": "thanks" },
+    { "id": "t17", "text": "Cảm ơn shop hỗ trợ", "intent": "thanks" },
+    { "id": "t18", "text": "alo b", "intent": "other" },
+    { "id": "t19", "text": "mình cái cho con bông nhà mình", "intent": "engraving", "ambiguous": true, "context": ["Cảm ơn bạn đã liên hệ. Tôi có thể giúp gì cho bạn hôm nay?", "alo b"], "note": "首轮信息不足：刻字意图在下一句(muốn khắc tên sđth)才澄清。产品层应回澄清问句，而非强判意图" },
+    { "id": "t20", "text": "muốn khắc tên sđth", "intent": "engraving" },
+    { "id": "t21", "text": "Khắc tên như nào em", "intent": "engraving" },
+    { "id": "t22", "text": "Khắc em tên BIN được không anh", "intent": "engraving" },
+    { "id": "t23", "text": "Xin chào", "intent": "other" },
+    { "id": "t24", "text": "Tôi muốn khắc tên và số điện thoại", "intent": "engraving" },
+    { "id": "t25", "text": "Hàng có sẵn không?", "intent": "stock" },
+    { "id": "t26", "text": "e muốn mua vòng cổ khắc tên mèo", "intent": "engraving" },
+    { "id": "t27", "text": "mà sản phẩm ko bt khắc tên sao hết ạ", "intent": "engraving" },
+    { "id": "t28", "text": "e muốn khắc tên xong ròi đặt thì làm s", "intent": "engraving" },
+    { "id": "t29", "text": "có thấy đâu ạ", "intent": "engraving", "context": ["Bạn chỉ cần ghi chú nội dung bạn muốn khắc vào đơn hàng là được rồi.", "Lúc đặt hàng, bạn ghi chú lại là được rồi."], "note": "上下文明确：买家在找下单备注入口，属刻字流程问题（原标注 other 已修正）" },
+    { "id": "t30", "text": "ghi tên với sđt ý ạ", "intent": "engraving" }
+  ]
+}
