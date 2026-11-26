@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "note": "越南语追问模板 v2：按「子意图」分流。措辞保持简短礼貌（Dạ / ạ / shop / bạn）。请让懂越南语的人复核再上线。",
+  "slots": {
+    "name": { "label_vi": "tên cần khắc", "example": "Nâu / BIN / meo" },
+    "phone": { "label_vi": "số điện thoại", "example": "09xx xxx xxx" },
+    "color": { "label_vi": "màu", "example": "đen / bạc / vàng" }
+  },
+  "templates": {
+    "ask_name_phone": "Dạ shop đã ghi nhận ạ. Bạn cho shop xin tên cần khắc và số điện thoại nhé ạ?",
+    "ask_name": "Dạ bạn cho shop xin tên cần khắc ạ?",
+    "ask_phone": "Dạ bạn cho shop xin số điện thoại để khắc ạ?",
+    "ask_color": "Dạ bạn muốn màu nào ạ? Shop có đen, bạc và vàng ạ.",
+
+    "how_to": "Dạ bạn chỉ cần ghi chú nội dung muốn khắc (tên + số điện thoại) vào ô \"Ghi chú\" khi đặt hàng ạ. Shop sẽ khắc đúng theo nội dung đó ạ.",
+
+    "find_entry": "Dạ ô ghi chú nằm ở trang thanh toán ạ: chọn sản phẩm → Tiến hành đặt hàng → mục \"Ghi chú\" → điền tên và số điện thoại cần khắc ạ. Bạn thử lại giúp shop nhé ạ!",
+
+    "confirm": "Dạ đúng rồi ạ, shop khắc đúng nội dung bạn ghi chú. Bạn cho shop xin tên cần khắc và số điện thoại nhé ạ?",
+
+    "confirm_with_name": "Dạ đúng rồi ạ, shop sẽ khắc tên {name}. Bạn cho shop xin số điện thoại để khắc ạ?",
+
+    "handoff": "Dạ shop đã ghi nhận, bạn chờ shop kiểm tra lại nhé ạ."
+  }
+}
