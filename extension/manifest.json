@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "VN Shop AI 客服助手",
+  "version": "0.1.0",
+  "description": "读取当前会话的买家消息，生成越南语推荐回复与中文对照。只填草稿，不自动发送。",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://seller.tiktokshopglobalselling.com/*",
+    "https://api.deepseek.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://seller.tiktokshopglobalselling.com/chat/*"],
+      "js": ["content.js"],
+      "css": ["panel.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

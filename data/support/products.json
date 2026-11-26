@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "note": "店铺 SKU 与库存（示例数据，请替换成你真实的商品）。库存字段：in_stock / out_of_stock / preorder",
+  "items": [
+    {
+      "id": "TL-NECK-01",
+      "name": "Vòng cổ khắc tên (da bò)",
+      "keywords": ["vòng cổ", "vong co", "necklace", "dây cổ"],
+      "price_vnd": 199000,
+      "stock": "in_stock",
+      "note": "khắc tên + số điện thoại"
+    },
+    {
+      "id": "TL-BRAC-01",
+      "name": "Vòng tay khắc tên",
+      "keywords": ["vòng tay", "vong tay", "bracelet"],
+      "price_vnd": 149000,
+      "stock": "in_stock",
+      "note": "khắc tên"
+    },
+    {
+      "id": "TL-TAG-01",
+      "name": "Thẻ tên cho thú cưng",
+      "keywords": ["thẻ", "the ten", "tag", "thẻ tên"],
+      "price_vnd": 99000,
+      "stock": "preorder",
+      "note": "khắc tên + sđt, đặt trước 3-5 ngày"
+    },
+    {
+      "id": "TL-COLLAR-01",
+      "name": "Vòng cổ mèo khắc tên",
+      "keywords": ["mèo", "meo", "vòng cổ mèo"],
+      "price_vnd": 179000,
+      "stock": "out_of_stock",
+      "note": "tạm hết hàng"
+    }
+  ]
+}

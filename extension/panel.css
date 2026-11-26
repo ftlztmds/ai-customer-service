@@ -1,0 +1,121 @@
+#vn-shop-ai-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 320px;
+  max-height: 70vh;
+  overflow: auto;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  font: 12px/1.5 -apple-system, "Microsoft YaHei", sans-serif;
+  z-index: 2147483647;
+}
+
+#vn-shop-ai-panel .vn-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: #111827;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px 10px 0 0;
+}
+
+#vn-shop-ai-panel .vn-toggle {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#vn-shop-ai-panel.vn-collapsed .vn-body {
+  display: none;
+}
+
+#vn-shop-ai-panel .vn-body {
+  padding: 10px;
+}
+
+#vn-shop-ai-panel .vn-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+#vn-shop-ai-panel .vn-btn {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #f9fafb;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#vn-shop-ai-panel .vn-btn:hover {
+  background: #f3f4f6;
+}
+
+#vn-shop-ai-panel .vn-primary {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+}
+
+#vn-shop-ai-panel .vn-primary:hover {
+  background: #1d4ed8;
+}
+
+#vn-shop-ai-panel .vn-block {
+  margin-bottom: 8px;
+}
+
+#vn-shop-ai-panel .vn-block label {
+  display: block;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+#vn-shop-ai-panel pre {
+  margin: 0;
+  padding: 6px 8px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 120px;
+  overflow: auto;
+}
+
+#vn-shop-ai-panel .vn-muted {
+  margin: 0;
+  color: #4b5563;
+  white-space: pre-wrap;
+}
+
+#vn-shop-ai-panel .vn-tip {
+  margin: 6px 0 0;
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+#vn-shop-ai-panel .vn-settings {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #e5e7eb;
+}
+
+#vn-shop-ai-panel .vn-settings input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  margin: 4px 0;
+  box-sizing: border-box;
+}
